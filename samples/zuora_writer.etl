@@ -1,10 +1,10 @@
 require 'kiba'
-require '../lib/kiba/uncommon/sources/csv_source'
+require '../lib/kiba/uncommon/sources/csv'
 require '../lib/kiba/uncommon/destinations/zuora_updater'
 
 
 # ETL like there's no tomorrow
-source Kiba::Uncommon::Sources::CsvSource, 'test_accounts.csv'
+source Kiba::Uncommon::Sources::CSV, 'test_accounts.csv'
 
 
 # Remove " - Test" from names
@@ -21,4 +21,4 @@ end
 
 # Write results
 z_client = Zuora::Client.new(ENV['ZUORA_USERNAME'], ENV['ZUORA_PASSWORD'], ENV['USE_ZUORA_SANDBOX'] == 'true')
-destination Kiba::Uncommon::Destinations::UncommonUpdater, z_client, :Account
+destination Kiba::Uncommon::Destinations::ZuoraUpdater, z_client, :Account

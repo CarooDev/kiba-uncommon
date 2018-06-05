@@ -6,7 +6,7 @@ module Kiba
 end
 
 
-class Kiba::Uncommon::Destinations::UncommonUpdater
+class Kiba::Uncommon::Destinations::ZuoraUpdater
   attr_reader :zuora_client
   attr_reader :type
 

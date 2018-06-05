@@ -1,4 +1,12 @@
-class RegexMatcher
+module Kiba
+  module Zuora
+    module Transforms
+    end
+  end
+end
+
+
+class Kiba::Zuora::Transforms::RegexMatcher
   attr_reader :field
   attr_reader :regex
 

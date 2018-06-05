@@ -10,7 +10,6 @@ class RegexMatcher
 
 
   def process(row)
-    # Look for "(dupe)" (case insensitive) in the name
     (regex =~ row.fetch(field)) ? row : nil
   end
 end

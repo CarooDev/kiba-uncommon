@@ -22,21 +22,34 @@ class Kiba::Zuora::Sources::ZOQLSource
 
   def each
     results = query
-    results.each do |result|
-      yield result
+
+    loop do
+      results.records.each do |result|
+        yield result
+      end
+
+      break if results['done'] == 'true'
+      results = query(results['query_locator'])
     end
   end
 
 
-  def query
-    response = zuora_client.call! :query, zoql_query
-    records = response.to_h['envelope']['body']['query_response']['result']['records']
+  def query(query_locator=nil)
+    unless query_locator
+      response = zuora_client.call! :query, zoql_query
+      result = response.to_h['envelope']['body']['query_response']['result']
+    else
+      response = zuora_client.call! :query_more, query_locator
+      result = response.to_h['envelope']['body']['query_more_response']['result']
+    end
 
-    records.map do |record|
+    # Remove XML fields
+    result.records.each do |record|
       record.delete(:ns2)
       record.delete(:type)
       record.delete(:xsi)
-      record
     end
+
+    result
   end
 end

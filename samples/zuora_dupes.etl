@@ -1,7 +1,7 @@
 require 'dotenv'
 require 'kiba'
-require '../lib/kiba/uncommon/sources/zoql_source'
-require '../lib/kiba/uncommon/destinations/csv_destination'
+require '../lib/kiba/uncommon/sources/zoql'
+require '../lib/kiba/uncommon/destinations/csv'
 require '../lib/kiba/uncommon/transforms/regex_matcher'
 
 
@@ -13,10 +13,10 @@ z_client = Zuora::Client.new(ENV['ZUORA_USERNAME'], ENV['ZUORA_PASSWORD'], ENV['
 
 
 # ETL like there's no tomorrow
-source Kiba::Uncommon::Sources::ZOQLSource, z_client, 'select Id, Name, Status from Account'
+source Kiba::Uncommon::Sources::ZOQL, z_client, 'select Id, Name, Status from Account'
 
 # Find duplicates
 transform Kiba::Uncommon::Transforms::RegexMatcher, 'name', /\(dupe\)/i
 
 # Write results
-destination Kiba::Uncommon::Destinations::CsvDestination, 'zuora_to_csv_output.csv'
+destination Kiba::Uncommon::Destinations::CSV, 'zuora_to_csv_output.csv'

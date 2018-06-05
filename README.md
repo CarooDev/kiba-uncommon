@@ -24,25 +24,25 @@ Or install it yourself as:
 One of the simplest examples to get started with is a CSV to CSV identity transform(returns the data unchanged):
 ```ruby
 job = Kiba.parse do
-  source Kiba::Uncommon::Sources::CsvSource, 'test_data.csv'
+  source Kiba::Uncommon::Sources::CSV, 'test_data.csv'
   transform Kiba::Uncommon::Transforms::IdentityTransform
-  destination Kiba::Uncommon::Destinations::CsvDestination, "output.csv"
+  destination Kiba::Uncommon::Destinations::CSV, 'output.csv'
 end
 Kiba.run(job)
 ```
 this will effectively copy the CSV file `test_data.csv` to `output.csv`, but it should help demonstrate the Source, Transform, Destination Pipeline:
 
-1. `Kiba::Uncommon::Sources::CsvSource` reads the data from the source. in this case its a CSV file, but could be a DB or another source.
+1. `Kiba::Uncommon::Sources::CSV` reads the data from the source. in this case its a CSV file, but could be a DB or another source.
 2. `Kiba::Uncommon::Transforms::IdentityTransform` provides a transform that simply passes the data through unchanged. you can use this as a template for your custom transforms.
-3. `Kiba::Uncommon::Destinations::CsvDestination` provides a destination for the final data. you can specify multiple destinations per job, should you want to push it to multiple destinations. in this demonstration, it will simply write to another CSV.
+3. `Kiba::Uncommon::Destinations::CSV` provides a destination for the final data. you can specify multiple destinations per job, should you want to push it to multiple destinations. in this demonstration, it will simply write to another CSV.
 
 #### Zuora account to CSV
 
 Here is a job that will source Zuora Account data and export it to CSV:
 ```ruby
 job = Kiba.parse do
-  source Kiba::Uncommon::Sources::ZOQLSource, z_client, 'select Id, Name, Status from Account'
-  destination Kiba::Uncommon::Destinations::CsvDestination, 'zuora_to_csv_output.csv'
+  source Kiba::Uncommon::Sources::ZOQL, z_client, 'select Id, Name, Status from Account'
+  destination Kiba::Uncommon::Destinations::CSV, 'zuora_to_csv_output.csv'
 end
 Kiba.run(job)
 ```

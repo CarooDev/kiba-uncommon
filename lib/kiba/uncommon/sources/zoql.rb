@@ -10,7 +10,7 @@ module Kiba
 end
 
 
-class Kiba::Uncommon::Sources::ZOQLSource
+class Kiba::Uncommon::Sources::ZOQL
   attr_reader :zuora_client
   attr_reader :zoql_query
 

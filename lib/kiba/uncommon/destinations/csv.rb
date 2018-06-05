@@ -2,7 +2,7 @@ require 'csv'
 module Kiba
   module Uncommon
     module Destinations
-      class CsvDestination
+      class CSV
         attr_reader :output_file
 
         def initialize(output_file)

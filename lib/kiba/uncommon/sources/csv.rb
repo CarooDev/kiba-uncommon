@@ -2,7 +2,7 @@ require 'csv'
 module Kiba
   module Uncommon
     module Sources
-      class CsvSource
+      class CSV
         attr_reader :input_file
 
         def initialize(input_file)

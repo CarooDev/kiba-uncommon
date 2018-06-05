@@ -3,6 +3,8 @@ require '../lib/kiba/zuora/sources/zoql_source'
 require '../lib/kiba/zuora/destinations/csv_destination'
 require './regex_matcher'
 
+require 'dotenv'
+Dotenv.load("../.env")
 
 # Setup a Zuora client
 z_client = Zuora::Client.new(ENV['ZUORA_USERNAME'], ENV['ZUORA_PASSWORD'], ENV['USE_ZUORA_SANDBOX'] == 'true')

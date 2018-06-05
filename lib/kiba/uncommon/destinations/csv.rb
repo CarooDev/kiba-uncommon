@@ -7,7 +7,7 @@ module Kiba
 
         def initialize(output_file)
           @output_file = output_file
-          @csv = CSV.open(output_file, 'w')
+          @csv = ::CSV.open(output_file, 'w')
         end
 
         def write(row)

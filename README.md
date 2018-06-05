@@ -1,8 +1,6 @@
-# Kiba::Zuora
+# kiba-zuora
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/kiba/zuora`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Kiba-zuora is a gem that provides ETL connectivity to and from zuora with the goal of being easily extensible for future 3rd parties and their integrations. `kiba-zuora` seeks to provide the necessary sources, transforms, and destinations we find to be common to our business needs at Snacknation.
 
 ## Installation
 
@@ -22,8 +20,52 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+#### CSV to CSV workflow demo
+One of the simplest examples to get started with is a CSV to CSV identity transform(returns the data unchanged):
+```ruby
+job = Kiba.parse do
+  source Kiba::Zuora::Sources::CsvSource, 'test_data.csv'
+  transform Kiba::Zuora::Transforms::IdentityTransform
+  destination Kiba::Zuora::Destinations::CsvDestination, "output.csv"
+end
+Kiba.run(job)
+```
+this will effectively copy the CSV file `test_data.csv` to `output.csv`, but it should help demonstrate the Source, Transform, Destination Pipeline:
 
+1. `Kiba::Zuora::Sources::CsvSource` reads the data from the source. in this case its a CSV file, but could be a DB or another source.
+2. `Kiba::Zuora::Transforms::IdentityTransform` provides a transform that simply passes the data through unchanged. you can use this as a template for your custom transforms.
+3. `Kiba::Zuora::Destinations::CsvDestination` provides a destination for the final data. you can specify multiple destinations per job, should you want to push it to multiple destinations. in this demonstration, it will simply write to another CSV.
+
+#### Zuora account to CSV
+
+Here is a job that will source zuora Account data and export it to CSV:
+```ruby
+job = Kiba.parse do
+  source Kiba::Zuora::Sources::ZOQLSource, z_client, 'select Id, Name, Status from Account'
+  destination Kiba::Zuora::Destinations::CsvDestination, 'zuora_to_csv_output.csv'
+end
+Kiba.run(job)
+```
+
+#### Filtering for Duplicates
+
+There is a sample file in the `samples` directory named `zuora_dupes.etl` which contains a Kiba Job similar to the one above, but with one minor difference of adding this transform:
+```ruby
+transform RegexMatcher, 'name', /\(dupe\)/i
+```
+
+this calls a transform named `RegexMatcher` that will only allow a row to be returned if it matches the regex provided. in this case, we only want to return the Accounts that have the string `(dupe)` in the Account name.
+
+##### running the the .etl file
+In order to run the kiba-zuora .etl file, you'll need to set up a `.env` file in your project.
+```
+ZUORA_USERNAME=
+ZUORA_PASSWORD=
+USE_ZUORA_SANDBOX=true
+```
+Once thats filled out, change directory to the `samples/` directory: `cd samples` and  run `kiba zuora_dupes.etl`
+
+this may take a few minutes to run depending on your Account Table size, but once its done, you should be able to find all Accounts with `(dupe)` in the Account name inside the `zuora_to_csv_output.csv`.
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
@@ -32,7 +74,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/kiba-zuora. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/SnackNation/kiba-zuora. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 

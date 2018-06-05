@@ -7,10 +7,10 @@ module Kiba
 
         def initialize(output_file)
           @output_file = output_file
+          @csv = CSV.open(output_file, 'w')
         end
 
         def write(row)
-          @csv ||= CSV.open(output_file, 'w')
           unless @headers_written
             @headers_written = true
             @csv << row.keys

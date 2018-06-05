@@ -11,6 +11,7 @@
 *.iml
 
 Gemfile.lock
+.env
 
 # Output from sample scripts
 zuora_to_csv_output.csv

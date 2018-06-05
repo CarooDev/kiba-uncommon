@@ -1,5 +1,5 @@
 module Kiba
-  module Zuora
+  module Uncommon
     module Transforms
       class IdentityTransform
         def initialize

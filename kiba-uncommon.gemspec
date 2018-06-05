@@ -1,17 +1,16 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "kiba/zuora/version"
+require "kiba/uncommon/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "kiba-zuora"
-  spec.version       = Kiba::Zuora::VERSION
-  spec.authors       = ["Jeff Carnes"]
-  spec.email         = ["jcarnes@gmail.com"]
+  spec.name          = "kiba-uncommon"
+  spec.version       = Kiba::Uncommon::VERSION
+  spec.authors       = ["Jeff Carnes", "David Ferril"]
 
-  spec.summary       = %q{Classes for interacting with Zuora via the Kiba ETL library.}
-  spec.description   = %q{Classes for interacting with Zuora via the Kiba ETL library.}
-  spec.homepage      = "https://github.com/SnackNation/kiba-zuora"
+  spec.summary       = %q{Additional sources, transforms, and destinations for Kiba}
+  spec.description   = %q{Additional sources, transforms, and destinations for Kiba}
+  spec.homepage      = "https://github.com/SnackNation/kiba-uncommon"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

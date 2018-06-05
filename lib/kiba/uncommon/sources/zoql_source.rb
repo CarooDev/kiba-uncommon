@@ -3,14 +3,14 @@ require 'hashie/logger'
 
 
 module Kiba
-  module Zuora
+  module Uncommon
     module Sources
     end
   end
 end
 
 
-class Kiba::Zuora::Sources::ZOQLSource
+class Kiba::Uncommon::Sources::ZOQLSource
   attr_reader :zuora_client
   attr_reader :zoql_query
 

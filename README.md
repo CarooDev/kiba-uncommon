@@ -1,13 +1,13 @@
-# kiba-zuora
+# kiba-uncommon
 
-Kiba-zuora is a gem that provides ETL connectivity to and from zuora with the goal of being easily extensible for future 3rd parties and their integrations. `kiba-zuora` seeks to provide the necessary sources, transforms, and destinations we find to be common to our business needs at Snacknation.
+`kiba-uncommon` is a gem that provides ETL connectivity to and from Zuora with the goal of being easily extensible for future 3rd parties and their integrations. `kiba-uncommon` seeks to provide the necessary sources, transforms, and destinations we find to be common to our business needs at Snacknation.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'kiba-zuora'
+gem 'kiba-uncommon'
 ```
 
 And then execute:
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install kiba-zuora
+    $ gem install kiba-install
 
 ## Usage
 
@@ -24,25 +24,25 @@ Or install it yourself as:
 One of the simplest examples to get started with is a CSV to CSV identity transform(returns the data unchanged):
 ```ruby
 job = Kiba.parse do
-  source Kiba::Zuora::Sources::CsvSource, 'test_data.csv'
-  transform Kiba::Zuora::Transforms::IdentityTransform
-  destination Kiba::Zuora::Destinations::CsvDestination, "output.csv"
+  source Kiba::Uncommon::Sources::CsvSource, 'test_data.csv'
+  transform Kiba::Uncommon::Transforms::IdentityTransform
+  destination Kiba::Uncommon::Destinations::CsvDestination, "output.csv"
 end
 Kiba.run(job)
 ```
 this will effectively copy the CSV file `test_data.csv` to `output.csv`, but it should help demonstrate the Source, Transform, Destination Pipeline:
 
-1. `Kiba::Zuora::Sources::CsvSource` reads the data from the source. in this case its a CSV file, but could be a DB or another source.
-2. `Kiba::Zuora::Transforms::IdentityTransform` provides a transform that simply passes the data through unchanged. you can use this as a template for your custom transforms.
-3. `Kiba::Zuora::Destinations::CsvDestination` provides a destination for the final data. you can specify multiple destinations per job, should you want to push it to multiple destinations. in this demonstration, it will simply write to another CSV.
+1. `Kiba::Uncommon::Sources::CsvSource` reads the data from the source. in this case its a CSV file, but could be a DB or another source.
+2. `Kiba::Uncommon::Transforms::IdentityTransform` provides a transform that simply passes the data through unchanged. you can use this as a template for your custom transforms.
+3. `Kiba::Uncommon::Destinations::CsvDestination` provides a destination for the final data. you can specify multiple destinations per job, should you want to push it to multiple destinations. in this demonstration, it will simply write to another CSV.
 
 #### Zuora account to CSV
 
-Here is a job that will source zuora Account data and export it to CSV:
+Here is a job that will source Zuora Account data and export it to CSV:
 ```ruby
 job = Kiba.parse do
-  source Kiba::Zuora::Sources::ZOQLSource, z_client, 'select Id, Name, Status from Account'
-  destination Kiba::Zuora::Destinations::CsvDestination, 'zuora_to_csv_output.csv'
+  source Kiba::Uncommon::Sources::ZOQLSource, z_client, 'select Id, Name, Status from Account'
+  destination Kiba::Uncommon::Destinations::CsvDestination, 'zuora_to_csv_output.csv'
 end
 Kiba.run(job)
 ```
@@ -57,7 +57,7 @@ transform RegexMatcher, 'name', /\(dupe\)/i
 this calls a transform named `RegexMatcher` that will only allow a row to be returned if it matches the regex provided. in this case, we only want to return the Accounts that have the string `(dupe)` in the Account name.
 
 ##### running the the .etl file
-In order to run the kiba-zuora .etl file, you'll need to set up a `.env` file in your project.
+In order to run the kiba-uncommon .etl file, you'll need to set up a `.env` file in your project.
 ```
 ZUORA_USERNAME=
 ZUORA_PASSWORD=
@@ -74,7 +74,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/SnackNation/kiba-zuora. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/SnackNation/kiba-uncommon. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -82,4 +82,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Kiba::Zuora project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/kiba-zuora/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Kiba::Uncommon project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/kiba-uncommon/blob/master/CODE_OF_CONDUCT.md).

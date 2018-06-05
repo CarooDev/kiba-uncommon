@@ -1,12 +1,12 @@
 module Kiba
-  module Zuora
+  module Uncommon
     module Destinations
     end
   end
 end
 
 
-class Kiba::Zuora::Destinations::ZuoraUpdater
+class Kiba::Uncommon::Destinations::UncommonUpdater
   attr_reader :zuora_client
   attr_reader :type
 

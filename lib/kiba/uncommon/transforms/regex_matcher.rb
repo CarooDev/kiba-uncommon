@@ -1,12 +1,12 @@
 module Kiba
-  module Zuora
+  module Uncommon
     module Transforms
     end
   end
 end
 
 
-class Kiba::Zuora::Transforms::RegexMatcher
+class Kiba::Uncommon::Transforms::RegexMatcher
   attr_reader :field
   attr_reader :regex
 

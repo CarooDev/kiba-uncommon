@@ -1,6 +1,6 @@
 require 'csv'
 module Kiba
-  module Zuora
+  module Uncommon
     module Destinations
       class CsvDestination
         attr_reader :output_file

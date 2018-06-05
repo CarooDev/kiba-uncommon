@@ -1,6 +1,6 @@
 require 'csv'
 module Kiba
-  module Zuora
+  module Uncommon
     module Sources
       class CsvSource
         attr_reader :input_file

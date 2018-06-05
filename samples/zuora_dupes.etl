@@ -1,14 +1,11 @@
 require 'dotenv'
-require 'kiba'
 require '../lib/kiba/uncommon/sources/zoql'
 require '../lib/kiba/uncommon/destinations/csv'
 require '../lib/kiba/uncommon/transforms/regex_matcher'
 
 
-Dotenv.load("../.env")
-
-
 # Setup a Zuora client
+Dotenv.load(".env")
 z_client = Zuora::Client.new(ENV['ZUORA_USERNAME'], ENV['ZUORA_PASSWORD'], ENV['USE_ZUORA_SANDBOX'] == 'true')
 
 

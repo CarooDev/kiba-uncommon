@@ -1,4 +1,12 @@
-class RegexMatcher
+module Kiba
+  module Zuora
+    module Transforms
+    end
+  end
+end
+
+
+class Kiba::Zuora::Transforms::RegexMatcher
   attr_reader :field
   attr_reader :regex
 
@@ -10,7 +18,6 @@ class RegexMatcher
 
 
   def process(row)
-    # Look for "(dupe)" (case insensitive) in the name
     (regex =~ row.fetch(field)) ? row : nil
   end
 end

@@ -1,4 +1,5 @@
 require 'zuora'
+require 'hashie/logger'
 
 
 module Kiba
@@ -17,6 +18,8 @@ class Kiba::Zuora::Sources::ZOQLSource
   def initialize(zuora_client, zoql_query)
     @zuora_client = zuora_client
     @zoql_query = zoql_query
+
+    Hashie.logger = Logger.new(nil)
   end
 
 

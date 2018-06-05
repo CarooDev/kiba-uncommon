@@ -1,6 +1,7 @@
 require 'kiba'
 require '../lib/kiba/zuora/sources/zoql_source'
 require '../lib/kiba/zuora/destinations/csv_destination'
+require './regex_matcher'
 
 
 # Setup a Zuora client
@@ -9,4 +10,9 @@ z_client = Zuora::Client.new(ENV['ZUORA_USERNAME'], ENV['ZUORA_PASSWORD'], ENV['
 
 # ETL like there's no tomorrow
 source Kiba::Zuora::Sources::ZOQLSource, z_client, 'select Id, Name, Status from Account'
+
+# Find duplicates
+transform RegexMatcher, 'name', /\(dupe\)/i
+
+# Write results
 destination Kiba::Zuora::Destinations::CsvDestination, 'zuora_to_csv_output.csv'

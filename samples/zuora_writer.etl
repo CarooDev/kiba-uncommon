@@ -1,10 +1,11 @@
-require 'kiba'
+require 'dotenv'
 require '../lib/kiba/uncommon/sources/csv'
 require '../lib/kiba/uncommon/destinations/zuora_updater'
+require 'zuora'
 
 
 # ETL like there's no tomorrow
-source Kiba::Uncommon::Sources::CSV, 'test_accounts.csv'
+source Kiba::Uncommon::Sources::CSV, 'zuora_to_csv_output.csv'
 
 
 # Remove " - Test" from names
@@ -18,7 +19,7 @@ transform do |row|
   row
 end
 
-
 # Write results
-z_client = Zuora::Client.new(ENV['ZUORA_USERNAME'], ENV['ZUORA_PASSWORD'], ENV['USE_ZUORA_SANDBOX'] == 'true')
+Dotenv.load('.env')
+z_client = Zuora::Client.new(ENV.fetch('ZUORA_USERNAME'), ENV.fetch('ZUORA_PASSWORD'), ENV.fetch('USE_ZUORA_SANDBOX') == 'true')
 destination Kiba::Uncommon::Destinations::ZuoraUpdater, z_client, :Account

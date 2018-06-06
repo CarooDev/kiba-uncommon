@@ -1,4 +1,5 @@
 require 'csv'
+
 module Kiba
   module Uncommon
     module Sources
@@ -10,10 +11,8 @@ module Kiba
         end
 
         def each
-          CSV.open(input_file, headers: true, header_converters: :symbol) do |csv|
-            csv.each do |row|
-              yield(row.to_hash)
-            end
+          ::CSV.foreach(input_file, headers: true, header_converters: :symbol) do |row|
+            yield(row.to_hash)
           end
         end
       end
